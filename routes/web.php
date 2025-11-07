@@ -17,12 +17,12 @@ Route::get('/contact', function () {
 
 Route::get('/jobs', function () {
     return view('jobs', [
-        'jobs' => Job::with('employer')->get(),
+        'jobs' => Job::with(['employer', 'tags'])->get(),
     ]);
 });
 
 Route::get('/jobs/{id}', function ($id) {
-    $job = Job::with('employer')->find($id);
+    $job = Job::with(['employer', 'tags'])->find($id);
 
     if (!$job) {
         abort(404);
