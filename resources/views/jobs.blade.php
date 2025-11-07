@@ -3,6 +3,25 @@
         Jobs Page
     </x-slot:heading>
 
+    {{-- Pagination Type Selector --}}
+    <div class="mb-6 p-4 bg-gray-50 rounded-lg">
+        <h3 class="text-lg font-semibold mb-3">Pagination Types:</h3>
+        <div class="flex flex-wrap gap-2">
+            <a href="/jobs?type=standard" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 {{ $paginationType === 'standard' ? 'bg-blue-700' : '' }}">
+                Standard Pagination
+            </a>
+            <a href="/jobs?type=simple" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 {{ $paginationType === 'simple' ? 'bg-green-700' : '' }}">
+                Simple Pagination
+            </a>
+            <a href="/jobs?type=cursor" class="px-4 py-2 bg-purple-500 text-white rounded hover:bg-purple-600 {{ $paginationType === 'cursor' ? 'bg-purple-700' : '' }}">
+                Cursor Pagination
+            </a>
+        </div>
+        <p class="text-sm text-gray-600 mt-2">
+            <strong>Current:</strong> {{ ucfirst($paginationType) }} Pagination
+        </p>
+    </div>
+
     <div class="space-y-4">
         @foreach ($jobs as $job)
             <a href="/jobs/{{ $job->id }}" class="block p-4 bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-md hover:border-blue-300 transition-all duration-200">
@@ -25,5 +44,10 @@
                 @endif
             </a>
         @endforeach
+    </div>
+
+    {{-- Pagination Links --}}
+    <div class="mt-6">
+        {{ $jobs->links() }}
     </div>
 </x-layout>

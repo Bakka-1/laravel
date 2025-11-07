@@ -16,8 +16,22 @@ Route::get('/contact', function () {
 });
 
 Route::get('/jobs', function () {
+    $paginationType = request('type', 'standard');
+    
+    switch ($paginationType) {
+        case 'simple':
+            $jobs = Job::with(['employer', 'tags'])->simplePaginate(3);
+            break;
+        case 'cursor':
+            $jobs = Job::with(['employer', 'tags'])->cursorPaginate(3);
+            break;
+        default:
+            $jobs = Job::with(['employer', 'tags'])->paginate(3);
+    }
+
     return view('jobs', [
-        'jobs' => Job::with(['employer', 'tags'])->get(), // Fixed: eager loading!
+        'jobs' => $jobs,
+        'paginationType' => $paginationType,
     ]);
 });
 
