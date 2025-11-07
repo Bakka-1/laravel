@@ -3,23 +3,27 @@
         Jobs Page
     </x-slot:heading>
 
-    <ul>
+    <div class="space-y-4">
         @foreach ($jobs as $job)
-            <li>
-                <a href="/jobs/{{ $job->id }}" class="text-blue-500 hover:underline">
-                    {{ $job->title }}
-                </a>: <strong>${{ $job->salary }}</strong> per year
+            <a href="/jobs/{{ $job->id }}" class="block p-4 bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-md hover:border-blue-300 transition-all duration-200">
                 @if($job->employer)
-                    - <em>{{ $job->employer->name }}</em>
+                    <div class="text-sm text-gray-500 mb-1">{{ $job->employer->name }}</div>
                 @endif
+                
+                <h3 class="text-lg font-semibold text-gray-900 mb-2">{{ $job->title }}</h3>
+                
+                <div class="text-green-600 font-medium mb-3">
+                    ${{ number_format($job->salary) }} per year
+                </div>
+                
                 @if($job->tags->count() > 0)
-                    <div class="mt-1">
+                    <div class="flex flex-wrap gap-2">
                         @foreach($job->tags as $tag)
-                            <span class="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded mr-1">{{ $tag->name }}</span>
+                            <span class="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">{{ $tag->name }}</span>
                         @endforeach
                     </div>
                 @endif
-            </li>
+            </a>
         @endforeach
-    </ul>
+    </div>
 </x-layout>

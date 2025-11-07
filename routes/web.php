@@ -17,7 +17,7 @@ Route::get('/contact', function () {
 
 Route::get('/jobs', function () {
     return view('jobs', [
-        'jobs' => Job::with(['employer', 'tags'])->get(),
+        'jobs' => Job::with(['employer', 'tags'])->get(), // Fixed: eager loading!
     ]);
 });
 
