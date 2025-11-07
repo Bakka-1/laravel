@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Job;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class JobController extends Controller
 {
@@ -74,7 +76,15 @@ class JobController extends Controller
         // Load relationships
         $job->load(['employer', 'tags']);
         
-        return view('jobs.show', ['job' => $job]);
+        // Step 4: Use Gate::allows/denies methods for conditional logic
+        $canEdit = Auth::check() && Gate::allows('edit-job', $job);
+        $canDelete = Auth::check() && Gate::allows('delete-job', $job);
+        
+        return view('jobs.show', [
+            'job' => $job,
+            'canEdit' => $canEdit,
+            'canDelete' => $canDelete
+        ]);
     }
 
     /**
@@ -82,6 +92,9 @@ class JobController extends Controller
      */
     public function edit(Job $job)
     {
+        // Step 5: Authorization now handled by middleware
+        // Gate::authorize('edit-job', $job); // No longer needed
+        
         return view('jobs.edit', ['job' => $job]);
     }
 
@@ -90,6 +103,9 @@ class JobController extends Controller
      */
     public function update(Request $request, Job $job)
     {
+        // Step 5: Authorization now handled by middleware
+        // Gate::authorize('update-job', $job); // No longer needed
+
         $request->validate([
             'title' => ['required', 'min:3', 'max:255'],
             'salary' => ['required', 'numeric', 'min:0', 'max:1000000'],
@@ -116,6 +132,9 @@ class JobController extends Controller
      */
     public function destroy(Job $job)
     {
+        // Step 5: Authorization now handled by middleware
+        // Gate::authorize('delete-job', $job); // No longer needed
+
         $job->delete();
 
         return redirect('/jobs')->with('success', 'Job deleted successfully!');

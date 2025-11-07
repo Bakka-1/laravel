@@ -9,7 +9,15 @@ class Employer extends Model
 {
     use HasFactory;
     
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'user_id'];
+
+    /**
+     * Get the user that owns the employer.
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
     /**
      * Get the jobs for the employer.

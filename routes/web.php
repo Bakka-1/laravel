@@ -23,9 +23,17 @@ Route::resource('jobs', JobController::class)->except(['create', 'store', 'edit'
 Route::middleware('auth')->group(function () {
     Route::get('/jobs/create', [JobController::class, 'create'])->name('jobs.create');
     Route::post('/jobs', [JobController::class, 'store'])->name('jobs.store');
-    Route::get('/jobs/{job}/edit', [JobController::class, 'edit'])->name('jobs.edit');
-    Route::patch('/jobs/{job}', [JobController::class, 'update'])->name('jobs.update');
-    Route::delete('/jobs/{job}', [JobController::class, 'destroy'])->name('jobs.destroy');
+    
+    // Step 5: Authorization middleware for job modification routes
+    Route::get('/jobs/{job}/edit', [JobController::class, 'edit'])
+        ->middleware('can:edit-job,job')
+        ->name('jobs.edit');
+    Route::patch('/jobs/{job}', [JobController::class, 'update'])
+        ->middleware('can:update-job,job')
+        ->name('jobs.update');
+    Route::delete('/jobs/{job}', [JobController::class, 'destroy'])
+        ->middleware('can:delete-job,job')
+        ->name('jobs.destroy');
 });
 
 Route::middleware('auth')->group(function () {

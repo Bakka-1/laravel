@@ -28,17 +28,39 @@
 
     {{-- Action Buttons --}}
     <div class="mt-6 flex items-center space-x-4">
-        <a href="/jobs/{{ $job->id }}/edit" class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-            Edit Job
-        </a>
+        {{-- Step 4: Use authorization in Blade views - Method 1: Controller variables --}}
+        @if($canEdit)
+            <a href="/jobs/{{ $job->id }}/edit" class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                Edit Job
+            </a>
+        @endif
         
-        <form method="POST" action="/jobs/{{ $job->id }}" id="delete-form" class="inline">
-            @csrf
-            @method('DELETE')
-            <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" onclick="return confirm('Are you sure you want to delete this job?')">
-                Delete Job
-            </button>
-        </form>
+        @if($canDelete)
+            <form method="POST" action="/jobs/{{ $job->id }}" id="delete-form" class="inline">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" onclick="return confirm('Are you sure you want to delete this job?')">
+                    Delete Job
+                </button>
+            </form>
+        @endif
+
+        {{-- Alternative Method 2: Direct @can directives in Blade --}}
+        {{-- @can('edit-job', $job)
+            <a href="/jobs/{{ $job->id }}/edit" class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded">
+                Edit Job (Direct)
+            </a>
+        @endcan
+
+        @can('delete-job', $job)
+            <form method="POST" action="/jobs/{{ $job->id }}" class="inline">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                    Delete Job (Direct)
+                </button>
+            </form>
+        @endcan --}}
         
         <a href="/jobs" class="text-blue-500 hover:underline">← Back to Jobs</a>
     </div>
