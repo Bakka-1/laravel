@@ -3,6 +3,14 @@
         Jobs Page
     </x-slot:heading>
 
+    {{-- Create Job Button --}}
+    <div class="mb-6 flex justify-between items-center">
+        <h2 class="text-2xl font-bold text-gray-900">Job Listings</h2>
+        <a href="/jobs/create" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            Create Job
+        </a>
+    </div>
+
     {{-- Pagination Type Selector --}}
     <div class="mb-6 p-4 bg-gray-50 rounded-lg">
         <h3 class="text-lg font-semibold mb-3">Pagination Types:</h3>
