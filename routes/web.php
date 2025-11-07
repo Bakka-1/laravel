@@ -62,6 +62,46 @@ Route::post('/jobs', function () {
     return redirect('/jobs')->with('success', 'Job created successfully!');
 });
 
+Route::get('/jobs/{id}/edit', function ($id) {
+    $job = Job::find($id);
+
+    if (!$job) {
+        abort(404);
+    }
+
+    return view('jobs.edit', ['job' => $job]);
+});
+
+Route::patch('/jobs/{id}', function ($id) {
+    request()->validate([
+        'title' => ['required', 'min:3', 'max:255'],
+        'salary' => ['required', 'numeric', 'min:0', 'max:1000000'],
+    ], [
+        'title.required' => 'A job title is required.',
+        'title.min' => 'The job title must be at least 3 characters.',
+        'title.max' => 'The job title cannot exceed 255 characters.',
+        'salary.required' => 'Please specify a salary for this position.',
+        'salary.numeric' => 'The salary must be a valid number.',
+        'salary.min' => 'The salary cannot be negative.',
+        'salary.max' => 'The salary cannot exceed $1,000,000.',
+    ]);
+
+    $job = Job::findOrFail($id);
+    $job->update([
+        'title' => request('title'),
+        'salary' => request('salary'),
+    ]);
+
+    return redirect("/jobs/{$id}")->with('success', 'Job updated successfully!');
+});
+
+Route::delete('/jobs/{id}', function ($id) {
+    $job = Job::findOrFail($id);
+    $job->delete();
+
+    return redirect('/jobs')->with('success', 'Job deleted successfully!');
+});
+
 Route::get('/jobs/{id}', function ($id) {
     $job = Job::with(['employer', 'tags'])->find($id);
 

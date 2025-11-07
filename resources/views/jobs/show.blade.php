@@ -3,6 +3,12 @@
         {{ $job->title }}
     </x-slot:heading>
 
+    @if (session('success'))
+        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
+            {{ session('success') }}
+        </div>
+    @endif
+
     <h2 class="text-lg font-bold">{{ $job->title }}</h2>
     @if($job->employer)
         <p class="text-gray-600 mb-2"><strong>Company:</strong> {{ $job->employer->name }}</p>
@@ -20,5 +26,20 @@
         </div>
     @endif
 
-    <a href="/jobs" class="text-blue-500 hover:underline mt-4 inline-block">← Back to Jobs</a>
+    {{-- Action Buttons --}}
+    <div class="mt-6 flex items-center space-x-4">
+        <a href="/jobs/{{ $job->id }}/edit" class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+            Edit Job
+        </a>
+        
+        <form method="POST" action="/jobs/{{ $job->id }}" id="delete-form" class="inline">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" onclick="return confirm('Are you sure you want to delete this job?')">
+                Delete Job
+            </button>
+        </form>
+        
+        <a href="/jobs" class="text-blue-500 hover:underline">← Back to Jobs</a>
+    </div>
 </x-layout>
