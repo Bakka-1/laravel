@@ -4,6 +4,17 @@
     </x-slot:heading>
 
     <div class="max-w-md mx-auto">
+        @if ($errors->any())
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+                <strong>Please fix the following errors:</strong>
+                <ul class="mt-2 list-disc list-inside">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+        
         <form method="POST" action="/jobs" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
             @csrf
             
@@ -19,6 +30,8 @@
                     placeholder="e.g. Software Developer"
                     value="{{ old('title') }}"
                     required
+                    minlength="3"
+                    maxlength="255"
                 >
                 @error('title')
                     <p class="text-red-500 text-xs italic mt-2">{{ $message }}</p>
@@ -37,6 +50,9 @@
                     placeholder="50000"
                     value="{{ old('salary') }}"
                     required
+                    min="0"
+                    max="1000000"
+                    step="1000"
                 >
                 @error('salary')
                     <p class="text-red-500 text-xs italic mt-2">{{ $message }}</p>

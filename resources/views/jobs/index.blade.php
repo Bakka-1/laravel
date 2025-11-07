@@ -3,6 +3,12 @@
         Jobs Page
     </x-slot:heading>
 
+    @if (session('success'))
+        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-6">
+            {{ session('success') }}
+        </div>
+    @endif
+
     {{-- Create Job Button --}}
     <div class="mb-6 flex justify-between items-center">
         <h2 class="text-2xl font-bold text-gray-900">Job Listings</h2>

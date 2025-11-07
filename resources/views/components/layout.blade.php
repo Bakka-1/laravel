@@ -27,6 +27,11 @@
         </div>
         <div class="hidden md:block">
           <div class="ml-4 flex items-center md:ml-6">
+            <x-create-job-button class="focus:ring-offset-gray-800" />
+          </div>
+        </div>
+        <div class="hidden md:block">
+          <div class="ml-4 flex items-center md:ml-6">
             <button type="button" class="relative rounded-full p-1 text-gray-400 hover:text-white focus:outline-2 focus:outline-offset-2 focus:outline-indigo-500">
               <span class="absolute -inset-1.5"></span>
               <span class="sr-only">View notifications</span>
@@ -68,6 +73,7 @@
         <x-nav-link href="/jobs" :active="request()->is('jobs*')">Jobs</x-nav-link>
         <x-nav-link href="/about" :active="request()->is('about')">About</x-nav-link>
         <x-nav-link href="/contact" :active="request()->is('contact')">Contact</x-nav-link>
+        <x-create-job-button class="block px-3 py-2 text-base mt-2" />
       </div>
       <div class="border-t border-white/10 pt-4 pb-3">
         <div class="flex items-center px-5">

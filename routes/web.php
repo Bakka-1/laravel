@@ -41,8 +41,16 @@ Route::get('/jobs/create', function () {
 
 Route::post('/jobs', function () {
     request()->validate([
-        'title' => 'required|min:3',
-        'salary' => 'required|numeric|min:0',
+        'title' => ['required', 'min:3', 'max:255'],
+        'salary' => ['required', 'numeric', 'min:0', 'max:1000000'],
+    ], [
+        'title.required' => 'A job title is required.',
+        'title.min' => 'The job title must be at least 3 characters.',
+        'title.max' => 'The job title cannot exceed 255 characters.',
+        'salary.required' => 'Please specify a salary for this position.',
+        'salary.numeric' => 'The salary must be a valid number.',
+        'salary.min' => 'The salary cannot be negative.',
+        'salary.max' => 'The salary cannot exceed $1,000,000.',
     ]);
 
     Job::create([
@@ -51,7 +59,7 @@ Route::post('/jobs', function () {
         'employer_id' => 1, // For now, use first employer
     ]);
 
-    return redirect('/jobs');
+    return redirect('/jobs')->with('success', 'Job created successfully!');
 });
 
 Route::get('/jobs/{id}', function ($id) {
