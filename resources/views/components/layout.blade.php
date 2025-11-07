@@ -35,17 +35,34 @@
               <form method="POST" action="{{ route('logout') }}" class="inline">
                 @csrf
                 <button type="submit" class="text-gray-300 hover:text-white px-3 py-2 text-sm font-medium">
-                  Logout
+                  Logout (Breeze)
                 </button>
               </form>
-            @else
+              <form method="POST" action="{{ route('logout.manual') }}" class="inline">
+                @csrf
+                <button type="submit" class="text-gray-300 hover:text-white px-3 py-2 text-sm font-medium">
+                  Logout (Manual)
+                </button>
+              </form>
+            @endauth
+            
+            @guest
+              <!-- Breeze Authentication -->
               <a href="{{ route('login') }}" class="text-gray-300 hover:text-white px-3 py-2 text-sm font-medium">
-                Login
+                Login (Breeze)
               </a>
               <a href="{{ route('register') }}" class="bg-indigo-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-indigo-700">
-                Register
+                Register (Breeze)
               </a>
-            @endauth
+              
+              <!-- Manual Authentication -->
+              <a href="{{ route('login.manual') }}" class="text-gray-300 hover:text-white px-3 py-2 text-sm font-medium">
+                Login (Manual)
+              </a>
+              <a href="{{ route('register.manual') }}" class="bg-green-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-green-700">
+                Register (Manual)
+              </a>
+            @endguest
           </div>
         </div>
         <div class="-mr-2 flex md:hidden">
@@ -78,13 +95,23 @@
           <form method="POST" action="{{ route('logout') }}" class="mt-2">
             @csrf
             <button type="submit" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium w-full text-left">
-              Logout
+              Logout (Breeze)
             </button>
           </form>
-        @else
-          <x-nav-link href="{{ route('login') }}" :active="request()->is('login')">Login</x-nav-link>
-          <x-nav-link href="{{ route('register') }}" :active="request()->is('register')">Register</x-nav-link>
+          <form method="POST" action="{{ route('logout.manual') }}" class="mt-2">
+            @csrf
+            <button type="submit" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium w-full text-left">
+              Logout (Manual)
+            </button>
+          </form>
         @endauth
+        
+        @guest
+          <x-nav-link href="{{ route('login') }}" :active="request()->is('login')">Login (Breeze)</x-nav-link>
+          <x-nav-link href="{{ route('register') }}" :active="request()->is('register')">Register (Breeze)</x-nav-link>
+          <x-nav-link href="{{ route('login.manual') }}" :active="request()->is('login-manual')">Login (Manual)</x-nav-link>
+          <x-nav-link href="{{ route('register.manual') }}" :active="request()->is('register-manual')">Register (Manual)</x-nav-link>
+        @endguest
       </div>
       <div class="border-t border-white/10 pt-4 pb-3">
         <div class="flex items-center px-5">
