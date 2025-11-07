@@ -26,7 +26,6 @@
                     type="text" 
                     required 
                     autofocus
-                    class="@error('first_name') border-red-500 @enderror"
                 />
                 <x-form-error name="first_name" />
             </div>
@@ -38,7 +37,6 @@
                     name="last_name" 
                     type="text" 
                     required
-                    class="@error('last_name') border-red-500 @enderror"
                 />
                 <x-form-error name="last_name" />
             </div>
@@ -50,7 +48,6 @@
                     name="email" 
                     type="email" 
                     required
-                    class="@error('email') border-red-500 @enderror"
                 />
                 <x-form-error name="email" />
             </div>
@@ -63,8 +60,10 @@
                     type="password" 
                     required
                     minlength="8"
-                    class="@error('password') border-red-500 @enderror"
                 />
+                <p class="text-xs text-gray-600 mt-1">
+                    Password must contain at least 8 characters with uppercase, lowercase, numbers, and symbols.
+                </p>
                 <x-form-error name="password" />
             </div>
 
@@ -76,7 +75,6 @@
                     type="password" 
                     required
                     minlength="8"
-                    class="@error('password_confirmation') border-red-500 @enderror"
                 />
                 <x-form-error name="password_confirmation" />
             </div>

@@ -25,17 +25,25 @@ class ManualSessionController extends Controller
         $request->validate([
             'email' => ['required', 'string', 'email'],
             'password' => ['required', 'string'],
+        ], [
+            'email.required' => 'Email address is required.',
+            'email.email' => 'Please provide a valid email address.',
+            'password.required' => 'Password is required.',
         ]);
 
-        if (! Auth::attempt($request->only('email', 'password'), $request->boolean('remember'))) {
+        // Throttle login attempts
+        $credentials = $request->only('email', 'password');
+        
+        if (! Auth::attempt($credentials, $request->boolean('remember'))) {
             throw ValidationException::withMessages([
-                'email' => __('These credentials do not match our records.'),
+                'email' => 'These credentials do not match our records.',
             ]);
         }
 
+        // Regenerate session for security
         $request->session()->regenerate();
 
-        return redirect()->intended('/dashboard')->with('success', 'Welcome back!');
+        return redirect()->intended('/dashboard')->with('success', 'Welcome back, ' . Auth::user()->name . '!');
     }
 
     /**

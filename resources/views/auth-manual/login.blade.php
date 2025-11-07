@@ -26,7 +26,6 @@
                     type="email" 
                     required 
                     autofocus
-                    class="@error('email') border-red-500 @enderror"
                 />
                 <x-form-error name="email" />
             </div>
@@ -38,7 +37,6 @@
                     name="password" 
                     type="password" 
                     required
-                    class="@error('password') border-red-500 @enderror"
                 />
                 <x-form-error name="password" />
             </div>
